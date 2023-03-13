@@ -5,11 +5,11 @@ const saveProfileForm = document.querySelector(".js-save-profile");
 const likeClick = document.querySelectorAll(".element__group-like");
 
 const openPopup = function () {
-    popupElement.classList.add("popup__open");
+    popupElement.classList.add("popup_opened");
 };
 
 const closePopup = function () {
-    popupElement.classList.remove("popup__open");
+    popupElement.classList.remove("popup_opened");
 };
 
 popupOpenButtonElement.addEventListener("click", openPopup);
@@ -29,3 +29,10 @@ function makelike(event) {
 for (const element of likeClick) {
     element.addEventListener('click', makelike);
 }
+
+saveProfileForm.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit").click();
+    }
+});

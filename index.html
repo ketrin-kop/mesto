@@ -25,7 +25,7 @@
       </div>
       <button class="add-button"></button>
     </section>
-    <section class="elements">
+    <div class="elements">
       <div class="element">
         <img class="element__img" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="фото церквушки">
         <div class="element__group">
@@ -48,27 +48,28 @@
         </div>
       </div>
       <div class="element">
-        <img class="element__img" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="фото церквушки">
+        <img class="element__img" src="./images/damir-yakupov-2QJNMdmezFA-unsplash.jpg"
+          alt="фото санаторий им.Орджоникидзе">
         <div class="element__group">
-          <p class="element__group-name">Карачаевск</p>
+          <p class="element__group-name">Сочи</p>
           <button class="element__group-like"></button>
         </div>
       </div>
       <div class="element">
-        <img class="element__img" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="фото церквушки">
+        <img class="element__img" src="./images/daria-gordova-T-ZTCAdF70E-unsplash.jpg" alt="фото озера Байкал">
         <div class="element__group">
-          <p class="element__group-name">Карачаевск</p>
+          <p class="element__group-name">Озеро Байкал</p>
           <button class="element__group-like"></button>
         </div>
       </div>
       <div class="element">
-        <img class="element__img" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="фото церквушки">
+        <img class="element__img" src="./images/hu-chen-pwuzRFG4Dm4-unsplash.jpg" alt="фото Санкт-Петербург">
         <div class="element__group">
-          <p class="element__group-name">Карачаевск</p>
+          <p class="element__group-name">Санкт-Петербург</p>
           <button class="element__group-like"></button>
         </div>
       </div>
-    </section>
+    </div>
   </main>
   <section class="popup">
     <div class="popup__conteiner">
@@ -76,8 +77,10 @@
       <form class="popup__profile js-save-profile">
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__info">
-          <input class="popup__input" type="text" name="firstname" placeholder="Ваше имя">
-          <input class="popup__input" type="text" name="description" placeholder="О себе">
+          <input class="popup__input" type="text" name="firstname" placeholder="Имя" value="Жак-Ив Кусто"
+            autocomplete="off">
+          <input class="popup__input" type="text" name="description" placeholder="О себе" value="Исследователь океана"
+            autocomplete="off">
         </fieldset>
         <button class="popup__save" type="submit">Сохранить</button>
       </form>
@@ -86,7 +89,7 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
   </footer>
-<script src="./scripts/index.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>
