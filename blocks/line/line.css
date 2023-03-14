@@ -1,0 +1,12 @@
+.line {
+    max-width: 880px;
+    opacity: 0.7;
+    border: 1px solid #545454;
+    margin: 40px auto 40px;
+}
+
+@media screen and (max-width: 767px) {
+    .line {
+        margin: 26.6px auto 42.25px;
+    }
+}

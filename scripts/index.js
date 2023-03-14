@@ -30,7 +30,7 @@ for (const element of likeClick) {
     element.addEventListener('click', makelike);
 }
 
-saveProfileForm.addEventListener("keyup", function(event) {
+saveProfileForm.addEventListener("keyup", function (event) {
     event.preventDefault();
     if (event.keyCode === 13) {
         document.getElementById("submit").click();

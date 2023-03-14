@@ -15,4 +15,4 @@ Mesto
 
 
 *Работа выполнена Копытовой Екатериной 
-[Cсылка на GitHub Pages.]( "Cсылка на GitHub Pages.")*
+[Cсылка на GitHub Pages.](https://ketrin-kop.github.io/mesto/ "Cсылка на GitHub Pages.")*
