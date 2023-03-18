@@ -1,18 +1,18 @@
-.profile-info {
+.profile__info {
     max-width: 336px;
     margin: 0 auto 0 30px;
     display: grid;
     grid-template-areas:
         "title edit-button"
         "subtitle subtitle";
-    row-gap: 16px;
+    row-gap: 8px;
     justify-content: space-between;
     align-items: baseline;
 }
 
 @media screen and (max-width: 1060px) {
-    .profile-info {
-        width: 244px;
+    .profile__info {
+        max-width: 244px;
         margin: 0;
         justify-items: center;
         row-gap: 10px;

@@ -9,7 +9,6 @@
 
 @media screen and (max-width: 767px) {
     .popup__info {
-        row-gap: 14px;
         padding: 58px 0 44px;
     }
 }

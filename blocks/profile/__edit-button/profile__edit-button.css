@@ -1,8 +1,8 @@
-.edit-button {
+.profile__edit-button {
     width: 24px;
     height: 24px;
     border: 1px solid #FFFFFF;
-    background: url('../../images/EditButton.png');
+    background: url('../../../../images/EditButton.svg');
     background-position: center;
     background-repeat: no-repeat;
     grid-area: edit-button;
@@ -10,12 +10,13 @@
 }
 
 @media screen and (max-width: 1060px) {
-    .edit-button {
+    .profile__edit-button {
+        background-size: 100%;
         width: 18px;
         height: 18px;
     }
 }
 
-.edit-button:hover {
+.profile__edit-button:hover {
     opacity: 0.6;
 }
