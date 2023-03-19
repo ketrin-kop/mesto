@@ -1,9 +1,10 @@
-.popup__profile {
+.popup__form {
     padding: 34px 36px 37px;
 }
 
 @media screen and (max-width: 767px) {
-    .popup__profile {
+    .popup__form {
         padding: 25px 22px;
     }
 }
+
