@@ -7,6 +7,8 @@
     background-repeat: no-repeat;
     grid-area: edit-button;
     cursor: pointer;
+    margin-left: 18px;
+    padding: 0;
 }
 
 @media screen and (max-width: 1060px) {
@@ -14,6 +16,8 @@
         background-size: 7.5px;
         width: 18px;
         height: 18px;
+        margin-left: 10px;
+        margin-right: 19px;
     }
 }
 

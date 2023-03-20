@@ -6,7 +6,6 @@
     color: #FFFFFF;
     margin: 0;
     grid-area: title;
-    padding-right: 18px;
     border: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -18,9 +17,8 @@
         width: 189px;
         font-size: 27px;
         line-height: 33px;
-        padding-right: 10px;
         padding-top: 26px;
-        padding-left: 29px;
+        margin-left: 46px;
         text-align: center;
     }
 }
