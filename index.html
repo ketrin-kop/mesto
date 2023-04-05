@@ -24,6 +24,10 @@
       </div>
       <button class="profile__add-button" type="button"></button>
     </section>
+    <div class="popup_cards cards">
+    </div>
+
+
     <section class="elements">
       <div class="element">
         <img class="element__img" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="фото церквушки">
@@ -31,6 +35,7 @@
           <h2 class="element__group-name">Карачаевск</h2>
           <button class="element__group-like" type="button"></button>
         </div>
+        <button class="element__delete" type="button"></button>
       </div>
       <div class="element">
         <img class="element__img" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="фото горы Эльбрус">
@@ -70,18 +75,33 @@
       </div>
     </section>
   </main>
-  <div class="popup">
+  <div class="popup popup_edit_btn">
     <div class="popup__conteiner">
       <button class="popup__close" type="button"></button>
       <form class="popup__form" name="form-profile">
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__info">
-          <input class="popup__input popup__input_text_name" type="text" name="firstname" placeholder="Имя" value="Жак-Ив Кусто"
-            autocomplete="off">
-          <input class="popup__input popup__input_text_description" type="text" name="description" placeholder="О себе" value="Исследователь океана"
-            autocomplete="off">
+          <input class="popup__input popup__input_text_name" type="text" name="firstname" placeholder="Имя"
+            value="Жак-Ив Кусто" autocomplete="off">
+          <input class="popup__input popup__input_text_description" type="text" name="description" placeholder="О себе"
+            value="Исследователь океана" autocomplete="off">
         </fieldset>
         <button class="popup__save" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_add_btn">
+    <div class="popup__conteiner">
+      <button class="popup__close" type="button"></button>
+      <form class="popup__form" name="form-place">
+        <h2 class="popup__title">Новое место</h2>
+        <fieldset class="popup__info">
+          <input class="popup__input popup__input_text_place" type="text" name="place" placeholder="Название"
+            value="Горнный Алтай" autocomplete="off">
+          <input class="popup__input popup__input_text_link" type="text" name="link" placeholder="Ссылка на картинку"
+            value="https://unsplash.com/example.jpg" autocomplete="off">
+        </fieldset>
+        <button class="popup__save" type="submit">Создать</button>
       </form>
     </div>
   </div>
