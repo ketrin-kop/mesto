@@ -8,4 +8,18 @@
     display: none;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    animation-name: popup;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
