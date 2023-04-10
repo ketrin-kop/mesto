@@ -1,25 +1,7 @@
 .image-popup__img {
-    max-width: 816px;
-    max-width: 540px;
+    max-width: 75vw;
+    max-height: 75vh;
     margin-bottom: 10px;
     width: 100%;
     object-fit: contain;
-}
-
-@media screen and (max-width: 1279px) {
-    .image-popup__img {
-        max-width: 600px;
-    }
-}
-
-@media screen and (max-width: 1060px) {
-    .image-popup__img {
-        max-width: 400px;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .image-popup__img {
-        max-width: 240px;
-    }
 }
