@@ -1,6 +1,6 @@
-const popupEditBtn = document.querySelector(".popup_edit_btn");
-const popupAddBtn = document.querySelector(".popup_add_btn");
-const popupImage = document.querySelector(".image-popup");
+const popupEditBtn = document.querySelector(".popup_type_edit-profile");
+const popupAddBtn = document.querySelector(".popup_type_add-image");
+const popupImage = document.querySelector(".popup_type_show-image");
 const editProfileCloseButton = popupEditBtn.querySelector(".popup__close");
 const editProfileOpenButton = document.querySelector(".profile__edit-button");
 const editProfilePopup = document.querySelector(".form-profile");
@@ -37,50 +37,45 @@ const initialCards = [
   }
 ];
 
-//создание галереии
 const placeCard = document.querySelector(".elements");
-const placeInfo = initialCards.map(function (item) {
-  return {
-    name: item.name,
-    link: item.link,
-    toStart: false
-  };
-});
 
-function render() {
-  placeInfo.forEach(renderCard);
+/**
+ * Отрисовка всех карточек по заданному массиву
+ */
+function renderAllPlaceCards() {
+  initialCards.forEach(item => {
+    newCard = createPlaceCard(item);
+    placeCard.append(newCard);
+  });
 }
 
-function renderCard({ name, link, toStart }) {
-  const placeElement = allCard.cloneNode(true);
-  placeElement.querySelector(".element__group-name").textContent = name;
-  placeElement.querySelector(".element__img").src = link;
-  placeElement.querySelector(".element__img").alt = name;
-  setEventListeners(placeElement);
-
-  placeCard.prepend(placeElement);
-}
-
-function setEventListeners(placeElement) {
+/**
+ * Определить события для карточки локации
+ * @param {HTMLElement} placeElement 
+ * @returns void
+ */
+function setCardEventListeners(placeElement) {
   placeElement.querySelector(".element__img").addEventListener('click', openBigImg);
   placeElement.querySelector(".element__delete").addEventListener('click', deleteCard);
   placeElement.querySelector(".element__group-like").addEventListener('click', likeActiv);
 }
 
-render();
+/**
+ * Creates a new card element based on the provided item data
+ * @param {object} item - The data for the item
+ * @param {string} item.name - The name of the item
+ * @param {string} item.link - The URL for the item's image
+ * @returns {HTMLElement}
+ */
+function createPlaceCard(item) {
+  const placeElement = allCard.cloneNode(true);
+  placeElement.querySelector(".element__group-name").textContent = item.name;
+  placeElement.querySelector(".element__img").src = item.link;
+  placeElement.querySelector(".element__img").alt = item.name;
+  setCardEventListeners(placeElement);
+  return placeElement;
+}
 
-//создание новой карточки
-const addPlacePopup = document.querySelector('.form-place');
-addPlacePopup.addEventListener('submit', e => {
-  e.preventDefault();
-  const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
-  const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
-  renderCard({ name: nameCard.value, link: linkCard.value, toStart: true });
-  closePopup(popupAddBtn);
-  placeCard.append(placeElement);
-})
-
-//открыиме и закрытие popup
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
 }
@@ -88,11 +83,6 @@ function openPopup(popupElement) {
 function closePopup(popupElement) {
   popupElement.classList.remove("popup_opened");
 }
-
-editProfileOpenButton.addEventListener("click", openPopupEdit);
-editProfileCloseButton.addEventListener("click", () => closePopup(popupEditBtn));
-document.querySelector(".profile__add-button").addEventListener("click", () => openPopup(popupAddBtn));
-popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
 
 function openPopupEdit() {
   openPopup(popupEditBtn);
@@ -102,27 +92,26 @@ function openPopupEdit() {
 
 function openBigImg(evt) {
   openPopup(popupImage);
-  const imgPopup = document.querySelector(".image-popup__img");
-  const nameImgPopup = document.querySelector(".image-popup__name");
+  const imgPopup = document.querySelector(".popup__image");
+  const nameImgPopup = document.querySelector(".popup__image-name");
   imgPopup.src = evt.target.src;
   imgPopup.alt = evt.target.name;
   imgPopup.alt = evt.target.alt;
   nameImgPopup.textContent = evt.target.alt;
 }
 
-popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
-
-//редактор профиля
-function handleFormSubmit(evt) {
+/**
+ * Обработчик события сабмита формы редактирования профиля
+ * @param {*} evt 
+ */
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = editProfileNameInput.value;
   profileDescription.textContent = editProfileDescriptionInput.value;
   closePopup(popupEditBtn);
 }
 
-editProfilePopup.addEventListener('submit', handleFormSubmit);
-
-//удаление карточки
+//Удаление карточки
 function deleteCard(event) {
   const card = event.target.closest(".element");
   card.remove();
@@ -132,3 +121,23 @@ function deleteCard(event) {
 function likeActiv(event) {
   event.currentTarget.classList.toggle('element__group-like_active');
 }
+
+// Навешивание событий на элементы
+document.querySelector('.form-place').addEventListener('submit', e => {
+  e.preventDefault();
+  const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
+  const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
+  newCard = createPlaceCard({name: nameCard.value, link: linkCard.value});
+  closePopup(popupAddBtn);
+  placeCard.prepend(newCard);
+})
+editProfilePopup.addEventListener('submit', handleProfileFormSubmit);
+popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
+editProfileOpenButton.addEventListener("click", openPopupEdit);
+editProfileCloseButton.addEventListener("click", () => closePopup(popupEditBtn));
+document.querySelector(".profile__add-button").addEventListener("click", () => openPopup(popupAddBtn));
+popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAllPlaceCards();
+})
