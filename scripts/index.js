@@ -122,66 +122,23 @@ function likeActiv(event) {
   event.currentTarget.classList.toggle('element__group-like_active');
 }
 
-/**
- * Функция устанавливает обработку поведения формы на основе валидации
- * @param {HTMLFormElement} form 
- * @param {string} inputName 
- * @param {string} message 
- * @returns 
- */
-const postValidation = (form, inputName, message) => {
-  if(message !== '') {
-    form.querySelector(`input[name="${inputName}"]`).classList.add('error');
-    form.querySelector(`span[data-message-for="${inputName}"]`).classList.add('active');
-    form.querySelector(`span[data-message-for="${inputName}"]`).innerHTML = message;
-  } else {
-    form.querySelector(`input[name="${inputName}"]`).classList.remove('error');
-    form.querySelector(`span[data-message-for="${inputName}"]`).classList.remove('active');
-  }
-  if(form.querySelector('.error') !== null) {
-    form.querySelector('button').disabled = true;
-    form.querySelector('button').classList.add('disabled');
-  } else {
-    form.querySelector('button').disabled = false;
-    form.querySelector('button').classList.remove('disabled');
-  }
-}
-
-const newPlaceFormValidation = () => {
-  const form = document.querySelector('.form-place');
-  form.querySelector('input[name="place"]').addEventListener('input', e => {
-    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
-    postValidation(form, e.currentTarget.name, errMessage);
-  })
-  form.querySelector('input[name="link"]').addEventListener('input', e => {
-    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
-    postValidation(form, e.currentTarget.name, errMessage);
-  })
-}
-
-const editProfileFormValidation = () => {
-  editProfilePopup.querySelector('input[name="firstname"]').addEventListener('input', e => {
-    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
-    postValidation(editProfilePopup, e.currentTarget.name, errMessage)
-  })
-  editProfilePopup.querySelector('input[name="description"]').addEventListener('input', e => {
-    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
-    postValidation(editProfilePopup, e.currentTarget.name, errMessage);
-  })
-}
-
 // Навешивание событий на элементы
 
 document.addEventListener('DOMContentLoaded', () => {
   renderAllPlaceCards();
-  newPlaceFormValidation();
-  editProfileFormValidation();
-
+  enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__save',
+    inactiveButtonClass: 'popup__save_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  });
   document.querySelector('.form-place').addEventListener('submit', e => {
     e.preventDefault();
     const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
     const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
-    newCard = createPlaceCard({name: nameCard.value, link: linkCard.value});
+    newCard = createPlaceCard({ name: nameCard.value, link: linkCard.value });
     closePopup(popupAddBtn);
     placeCard.prepend(newCard);
   })
@@ -194,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
 
   document.addEventListener('keydown', function (e) {
-    if(e.keyCode === 27) {
+    if (e.keyCode === 27) {
       closePopup(document.querySelector('.popup_opened'))
     };
   });
@@ -202,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const overlays = document.querySelectorAll('.popup');
   for (const overlay of overlays) {
     overlay.addEventListener('click', e => {
-      if(e.target.classList.contains('popup')) {
+      if (e.target.classList.contains('popup')) {
         closePopup(e.currentTarget);
       }
     })
