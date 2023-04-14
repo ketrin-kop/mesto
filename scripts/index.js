@@ -123,42 +123,6 @@ function likeActiv(event) {
 }
 
 /**
- * Возвращает пустую строку если нет ошибок, и текст ошибки если валидация провалилась
- * @param {int} min 
- * @param {int} max 
- * @param {string} value 
- * @returns {string}
- */
-const validateFieldByLength = (min, max, value) => {
-  value = value.trim();
-  let errorMessage = '';
-  if (value.length === 0) {
-    errorMessage = 'Поле не может быть пустым!';
-  } else if(value.length < min) {
-    errorMessage = 'Слишком короткое';
-  } else if(value.length > max) {
-    errorMessage = `Не более ${max} символов`;
-  }
-  return errorMessage;
-}
-
-
-/**
- * 
- * @param {string} val 
- * @returns {string}
- */
-const validateUrl = (val) => {
-  const value = val.trim();
-  try {
-    new URL(value)
-    return '';
-  } catch {
-    return 'Неверный формат URL';
-  }
-}
-
-/**
  * Функция устанавливает обработку поведения формы на основе валидации
  * @param {HTMLFormElement} form 
  * @param {string} inputName 
@@ -186,19 +150,23 @@ const postValidation = (form, inputName, message) => {
 const newPlaceFormValidation = () => {
   const form = document.querySelector('.form-place');
   form.querySelector('input[name="place"]').addEventListener('input', e => {
-    postValidation(form, e.currentTarget.name, validateFieldByLength(2, 30, e.currentTarget.value));
+    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
+    postValidation(form, e.currentTarget.name, errMessage);
   })
   form.querySelector('input[name="link"]').addEventListener('input', e => {
-    postValidation(form, e.currentTarget.name, validateUrl(e.currentTarget.value));
+    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
+    postValidation(form, e.currentTarget.name, errMessage);
   })
 }
 
 const editProfileFormValidation = () => {
   editProfilePopup.querySelector('input[name="firstname"]').addEventListener('input', e => {
-    postValidation(editProfilePopup, e.currentTarget.name, validateFieldByLength(2, 40, e.currentTarget.value))
+    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
+    postValidation(editProfilePopup, e.currentTarget.name, errMessage)
   })
   editProfilePopup.querySelector('input[name="description"]').addEventListener('input', e => {
-    postValidation(editProfilePopup, e.currentTarget.name, validateFieldByLength(2, 200, e.currentTarget.value));
+    errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
+    postValidation(editProfilePopup, e.currentTarget.name, errMessage);
   })
 }
 
@@ -230,4 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
       closePopup(document.querySelector('.popup_opened'))
     };
   });
+
+  const overlays = document.querySelectorAll('.popup');
+  for (const overlay of overlays) {
+    overlay.addEventListener('click', e => {
+      if(e.target.classList.contains('popup')) {
+        closePopup(e.currentTarget);
+      }
+    })
+  }
 })
