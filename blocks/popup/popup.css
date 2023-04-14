@@ -12,3 +12,17 @@
     visibility: hidden;
     transition: visibility 1s, opacity 0.5s linear;
 }
+
+.popup__save.disabled {
+    background-color: aliceblue;
+    color: brown;
+}
+
+.err-span {
+    color: red;
+    display: none;
+}
+
+.err-span.active {
+    display: unset;
+}

@@ -122,22 +122,111 @@ function likeActiv(event) {
   event.currentTarget.classList.toggle('element__group-like_active');
 }
 
+/**
+ * Возвращает пустую строку если нет ошибок, и текст ошибки если валидация провалилась
+ * @param {int} min 
+ * @param {int} max 
+ * @param {string} value 
+ * @returns {string}
+ */
+const validateFieldByLength = (min, max, value) => {
+  value = value.trim();
+  let errorMessage = '';
+  if (value.length === 0) {
+    errorMessage = 'Поле не может быть пустым!';
+  } else if(value.length < min) {
+    errorMessage = 'Слишком короткое';
+  } else if(value.length > max) {
+    errorMessage = `Не более ${max} символов`;
+  }
+  return errorMessage;
+}
+
+/**
+ * 
+ * @param {string} val 
+ * @returns {string}
+ */
+const validateUrl = (val) => {
+  const value = val.trim();
+  try {
+    new URL(value)
+    return '';
+  } catch {
+    return 'Неверный формат URL';
+  }
+}
+
+/**
+ * Функция устанавливает обработку поведения формы на основе валидации
+ * @param {HTMLFormElement} form 
+ * @param {string} inputName 
+ * @param {string} message 
+ * @returns 
+ */
+const postValidation = (form, inputName, message) => {
+  if(message !== '') {
+    form.querySelector(`input[name="${inputName}"]`).classList.add('error');
+    form.querySelector(`span[data-message-for="${inputName}"]`).classList.add('active');
+    form.querySelector(`span[data-message-for="${inputName}"]`).innerHTML = message;
+  } else {
+    form.querySelector(`input[name="${inputName}"]`).classList.remove('error');
+    form.querySelector(`span[data-message-for="${inputName}"]`).classList.remove('active');
+  }
+  if(form.querySelector('.error') !== null) {
+    form.querySelector('button').disabled = true;
+    form.querySelector('button').classList.add('disabled');
+  } else {
+    form.querySelector('button').disabled = false;
+    form.querySelector('button').classList.remove('disabled');
+  }
+}
+
+const newPlaceFormValidation = () => {
+  const form = document.querySelector('.form-place');
+  form.querySelector('input[name="place"]').addEventListener('input', e => {
+    postValidation(form, e.currentTarget.name, validateFieldByLength(2, 30, e.currentTarget.value));
+  })
+  form.querySelector('input[name="link"]').addEventListener('input', e => {
+    postValidation(form, e.currentTarget.name, validateUrl(e.currentTarget.value));
+  })
+}
+
+const editProfileFormValidation = () => {
+  editProfilePopup.querySelector('input[name="firstname"]').addEventListener('input', e => {
+    postValidation(editProfilePopup, e.currentTarget.name, validateFieldByLength(2, 40, e.currentTarget.value))
+  })
+  editProfilePopup.querySelector('input[name="description"]').addEventListener('input', e => {
+    postValidation(editProfilePopup, e.currentTarget.name, validateFieldByLength(2, 200, e.currentTarget.value));
+  })
+}
+
 // Навешивание событий на элементы
-document.querySelector('.form-place').addEventListener('submit', e => {
-  e.preventDefault();
-  const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
-  const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
-  newCard = createPlaceCard({name: nameCard.value, link: linkCard.value});
-  closePopup(popupAddBtn);
-  placeCard.prepend(newCard);
-})
-editProfilePopup.addEventListener('submit', handleProfileFormSubmit);
-popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
-editProfileOpenButton.addEventListener("click", openPopupEdit);
-editProfileCloseButton.addEventListener("click", () => closePopup(popupEditBtn));
-document.querySelector(".profile__add-button").addEventListener("click", () => openPopup(popupAddBtn));
-popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
 
 document.addEventListener('DOMContentLoaded', () => {
   renderAllPlaceCards();
+  newPlaceFormValidation();
+  editProfileFormValidation();
+
+  document.querySelector('.form-place').addEventListener('submit', e => {
+    e.preventDefault();
+    const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
+    const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
+    newCard = createPlaceCard({name: nameCard.value, link: linkCard.value});
+    closePopup(popupAddBtn);
+    placeCard.prepend(newCard);
+  })
+  editProfilePopup.addEventListener('submit', handleProfileFormSubmit);
+
+  popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
+  editProfileOpenButton.addEventListener("click", openPopupEdit);
+  editProfileCloseButton.addEventListener("click", () => closePopup(popupEditBtn));
+  document.querySelector(".profile__add-button").addEventListener("click", () => openPopup(popupAddBtn));
+  popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
+
+  document.addEventListener('keydown', function (e) {
+    if(e.keyCode === 27) {
+      closePopup(document.querySelector('.popup_opened'))
+    };
+  });
 })
