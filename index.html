@@ -46,10 +46,10 @@
         <fieldset class="popup__info">
           <input class="popup__input popup__input_text_name" type="text" name="firstname" placeholder="Имя"
             value="Жак-Ив Кусто" autocomplete="off" required minlength="2" maxlength="40">
-            <span class="err-span" data-message-for="firstname"></span>
+          <span class="popup__input-error" data-message-for="firstname"></span>
           <input class="popup__input popup__input_text_description" type="text" name="description" placeholder="О себе"
-            value="Исследователь океана" autocomplete="off"  required minlength="2" maxlength="200">
-            <span class="err-span" data-message-for="description"></span>
+            value="Исследователь океана" autocomplete="off" required minlength="2" maxlength="200">
+          <span class="popup__input-error" data-message-for="description"></span>
         </fieldset>
         <button class="popup__save" type="submit">Сохранить</button>
       </form>
@@ -62,11 +62,11 @@
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__info">
           <input class="popup__input popup__input_text_place" type="text" name="place" placeholder="Название"
-            value="Горнный Алтай" autocomplete="off"  required minlength="2" maxlength="30">
-            <span class="err-span" data-message-for="place"></span>
-          <input class="popup__input popup__input_text_link" type="url" name="link" placeholder="Ссылка на картинку required"
-            value="https://tourweek.ru/storage/web/source/uploads/ckeditor/optimal13.jpg" autocomplete="off">
-            <span class="err-span" data-message-for="link"></span>
+            value="Горнный Алтай" autocomplete="off" required minlength="2" maxlength="30">
+          <span class="popup__input-error" data-message-for="place"></span>
+          <input class="popup__input popup__input_text_link" type="url" name="link" placeholder="Ссылка на картинку"
+            value="https://tourweek.ru/storage/web/source/uploads/ckeditor/optimal13.jpg" autocomplete="off" required>
+          <span class="popup__input-error" data-message-for="link"></span>
         </fieldset>
         <button class="popup__save" type="submit">Создать</button>
       </form>
@@ -75,7 +75,8 @@
   <div class="popup popup_type_show-image">
     <div class="popup__image-conteiner">
       <button class="popup__close" type="button"></button>
-      <img class="popup__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" alt="Байкал">
+      <img class="popup__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg"
+        alt="Байкал">
       <h2 class="popup__image-name">Байкал</h2>
     </div>
   </div>

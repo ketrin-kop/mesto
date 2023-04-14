@@ -142,6 +142,7 @@ const validateFieldByLength = (min, max, value) => {
   return errorMessage;
 }
 
+
 /**
  * 
  * @param {string} val 
