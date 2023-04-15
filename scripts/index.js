@@ -9,6 +9,8 @@ const editProfileDescriptionInput = document.querySelector('.popup__input_text_d
 const profileName = document.querySelector(".profile__info-name");
 const profileDescription = document.querySelector(".profile__info-description");
 const allCard = document.querySelector("#card").content;
+const imgPopup = document.querySelector(".popup__image");
+const nameImgPopup = document.querySelector(".popup__image-name");
 
 const initialCards = [
   {
@@ -78,10 +80,12 @@ function createPlaceCard(item) {
 
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
+  document.addEventListener('keydown', closeByEscape);
 }
 
 function closePopup(popupElement) {
   popupElement.classList.remove("popup_opened");
+  document.removeEventListener('keydown', closeByEscape);
 }
 
 function openPopupEdit() {
@@ -90,10 +94,15 @@ function openPopupEdit() {
   editProfileDescriptionInput.value = profileDescription.textContent;
 }
 
+function openPopupAdd() {
+  openPopup(popupAddBtn);
+  const saveBtn = popupAddBtn.querySelector('.popup__save');
+  saveBtn.classList.add('popup__save_disabled');
+  saveBtn.disabled = true;
+}
+
 function openBigImg(evt) {
   openPopup(popupImage);
-  const imgPopup = document.querySelector(".popup__image");
-  const nameImgPopup = document.querySelector(".popup__image-name");
   imgPopup.src = evt.target.src;
   imgPopup.alt = evt.target.name;
   imgPopup.alt = evt.target.alt;
@@ -122,6 +131,14 @@ function likeActiv(event) {
   event.currentTarget.classList.toggle('element__group-like_active');
 }
 
+function closeByEscape(evt) {
+  console.log(evt.key)
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
+
 // Навешивание событий на элементы
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -136,28 +153,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.querySelector('.form-place').addEventListener('submit', e => {
     e.preventDefault();
-    const nameCard = e.currentTarget.querySelector(".popup__input_text_place");
-    const linkCard = e.currentTarget.querySelector(".popup__input_text_link");
-    newCard = createPlaceCard({ name: nameCard.value, link: linkCard.value });
+    const newCard = createPlaceCard({
+      name: e.currentTarget.querySelector(".popup__input_text_place").value,
+      link: e.currentTarget.querySelector(".popup__input_text_link").value
+    });
     closePopup(popupAddBtn);
     placeCard.prepend(newCard);
+    e.target.reset();
   })
   editProfilePopup.addEventListener('submit', handleProfileFormSubmit);
 
   popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
   editProfileOpenButton.addEventListener("click", openPopupEdit);
   editProfileCloseButton.addEventListener("click", () => closePopup(popupEditBtn));
-  document.querySelector(".profile__add-button").addEventListener("click", () => openPopup(popupAddBtn));
+  document.querySelector(".profile__add-button").addEventListener("click", openPopupAdd);
   popupAddBtn.querySelector(".popup__close").addEventListener("click", () => closePopup(popupAddBtn));
 
-  document.addEventListener('keydown', function (e) {
-    if (e.keyCode === 27) {
-      closePopup(document.querySelector('.popup_opened'))
-    };
-  });
-
-  const overlays = document.querySelectorAll('.popup');
-  for (const overlay of overlays) {
+  const allPopups = document.querySelectorAll('.popup');
+  for (const overlay of allPopups) {
     overlay.addEventListener('click', e => {
       if (e.target.classList.contains('popup')) {
         closePopup(e.currentTarget);
