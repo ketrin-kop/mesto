@@ -11,6 +11,9 @@ const profileDescription = document.querySelector(".profile__info-description");
 const allCard = document.querySelector("#card").content;
 const imgPopup = document.querySelector(".popup__image");
 const nameImgPopup = document.querySelector(".popup__image-name");
+const addCardPlaceInput = document.querySelector(".popup__input_text_place");
+const addCardLinkInput = document.querySelector(".popup__input_text_link");
+
 
 const initialCards = [
   {
@@ -154,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.form-place').addEventListener('submit', e => {
     e.preventDefault();
     const newCard = createPlaceCard({
-      name: e.currentTarget.querySelector(".popup__input_text_place").value,
-      link: e.currentTarget.querySelector(".popup__input_text_link").value
+      name: addCardPlaceInput.value,
+      link: addCardLinkInput.value
     });
     closePopup(popupAddBtn);
     placeCard.prepend(newCard);
