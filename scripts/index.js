@@ -1,3 +1,6 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
 const popupEditBtn = document.querySelector(".popup_type_edit-profile");
 const popupAddBtn = document.querySelector(".popup_type_add-image");
 const popupImage = document.querySelector(".popup_type_show-image");
@@ -8,7 +11,7 @@ const editProfileNameInput = document.querySelector('.popup__input_text_name');
 const editProfileDescriptionInput = document.querySelector('.popup__input_text_description');
 const profileName = document.querySelector(".profile__info-name");
 const profileDescription = document.querySelector(".profile__info-description");
-const allCard = document.querySelector("#card").content;
+const cardTemplate = document.querySelector("#card").content;
 const imgPopup = document.querySelector(".popup__image");
 const nameImgPopup = document.querySelector(".popup__image-name");
 const addCardPlaceInput = document.querySelector(".popup__input_text_place");
@@ -42,43 +45,16 @@ const initialCards = [
   }
 ];
 
-const placeCard = document.querySelector(".elements");
+const cardsField = document.querySelector(".elements");
 
 /**
  * Отрисовка всех карточек по заданному массиву
  */
 function renderAllPlaceCards() {
   initialCards.forEach(item => {
-    newCard = createPlaceCard(item);
-    placeCard.append(newCard);
+    const newCard = new Card(item, cardTemplate, handleCardClick).createCard();
+    cardsField.append(newCard);
   });
-}
-
-/**
- * Определить события для карточки локации
- * @param {HTMLElement} placeElement 
- * @returns void
- */
-function setCardEventListeners(placeElement) {
-  placeElement.querySelector(".element__img").addEventListener('click', openBigImg);
-  placeElement.querySelector(".element__delete").addEventListener('click', deleteCard);
-  placeElement.querySelector(".element__group-like").addEventListener('click', likeActiv);
-}
-
-/**
- * Creates a new card element based on the provided item data
- * @param {object} item - The data for the item
- * @param {string} item.name - The name of the item
- * @param {string} item.link - The URL for the item's image
- * @returns {HTMLElement}
- */
-function createPlaceCard(item) {
-  const placeElement = allCard.cloneNode(true);
-  placeElement.querySelector(".element__group-name").textContent = item.name;
-  placeElement.querySelector(".element__img").src = item.link;
-  placeElement.querySelector(".element__img").alt = item.name;
-  setCardEventListeners(placeElement);
-  return placeElement;
 }
 
 function openPopup(popupElement) {
@@ -104,7 +80,7 @@ function openPopupAdd() {
   saveBtn.disabled = true;
 }
 
-function openBigImg(evt) {
+function handleCardClick(evt) {
   openPopup(popupImage);
   imgPopup.src = evt.target.src;
   imgPopup.alt = evt.target.name;
@@ -123,16 +99,6 @@ function handleProfileFormSubmit(evt) {
   closePopup(popupEditBtn);
 }
 
-//Удаление карточки
-function deleteCard(event) {
-  const card = event.target.closest(".element");
-  card.remove();
-}
-
-//Лайк
-function likeActiv(event) {
-  event.currentTarget.classList.toggle('element__group-like_active');
-}
 
 function closeByEscape(evt) {
   console.log(evt.key)
@@ -143,10 +109,21 @@ function closeByEscape(evt) {
 }
 
 // Навешивание событий на элементы
-
+const initFormPlaceEventListeners = () => {
+  document.querySelector('.form-place').addEventListener('submit', e => {
+    e.preventDefault();
+    const newCard = new Card({
+      name: addCardPlaceInput.value,
+      link: addCardLinkInput.value
+    }, cardTemplate).createCard();
+    closePopup(popupAddBtn);
+    cardsField.prepend(newCard);
+    e.target.reset();
+  })
+}
 document.addEventListener('DOMContentLoaded', () => {
   renderAllPlaceCards();
-  enableValidation({
+  const validator = new FormValidator({
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__save',
@@ -154,16 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
   });
-  document.querySelector('.form-place').addEventListener('submit', e => {
-    e.preventDefault();
-    const newCard = createPlaceCard({
-      name: addCardPlaceInput.value,
-      link: addCardLinkInput.value
-    });
-    closePopup(popupAddBtn);
-    placeCard.prepend(newCard);
-    e.target.reset();
-  })
+  validator.enableValidation();
+  initFormPlaceEventListeners();
+
   editProfilePopup.addEventListener('submit', handleProfileFormSubmit);
 
   popupImage.querySelector(".popup__close").addEventListener("click", () => closePopup(popupImage));
