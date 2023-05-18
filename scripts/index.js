@@ -87,9 +87,6 @@ function openPopupEdit() {
 function openPopupAdd() {
   addFormValidator.resetValidation();
   openPopup(popupAddBtn);
-  // const saveBtn = popupAddBtn.querySelector('.popup__save');
-  // saveBtn.classList.add('popup__save_disabled');
-  // saveBtn.disabled = true;
 }
 
 function handleCardClick(evt) {
