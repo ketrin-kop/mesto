@@ -1,7 +1,20 @@
 class FormValidator {
-    constructor(options) {
+    constructor(options, form) {
         this._options = options;
-        this._inputs = document.querySelectorAll(`${this._options.inputSelector}`);
+        this._form = form;
+        this._inputList = Array.from(this._form.querySelectorAll(this._options.inputSelector));
+        this._buttonElement = this._form.querySelector(this._options.submitButtonSelector);
+    }
+
+    _toggleButtonState() {
+        const isValid = this._inputList.every((input) => input.validity.valid);
+        if (isValid) {
+            this._buttonElement.disabled = false;
+            this._buttonElement.classList.remove(this._options.inactiveButtonClass);
+        } else {
+            this._buttonElement.disabled = true;
+            this._buttonElement.classList.add(this._options.inactiveButtonClass);
+        }
     }
 
     enableValidation() {
@@ -9,7 +22,7 @@ class FormValidator {
     }
 
     _validationEvents() {
-        for (const input of this._inputs) {
+        for (const input of this._inputList) {
             input.addEventListener('input', e => {
                 let errMessage = e.currentTarget.validity.valid ? '' : e.currentTarget.validationMessage;
                 this._postValidation(e.currentTarget, errMessage);
@@ -24,23 +37,35 @@ class FormValidator {
      * @private
      */
     _postValidation(input, message) {
-        const form = input.closest(this._options.formSelector);
         const inputName = input.name;
         if (message !== '') {
             input.classList.add(this._options.inputErrorClass);
-            form.querySelector(`span[data-message-for="${inputName}"]`).classList.add(this._options.errorClass);
-            form.querySelector(`span[data-message-for="${inputName}"]`).innerHTML = message;
+            this._form.querySelector(`span[data-message-for="${inputName}"]`).classList.add(this._options.errorClass);
+            this._form.querySelector(`span[data-message-for="${inputName}"]`).innerHTML = message;
         } else {
             input.classList.remove(this._options.inputErrorClass);
-            form.querySelector(`span[data-message-for="${inputName}"]`).classList.remove(this._options.errorClass);
+            this._form.querySelector(`span[data-message-for="${inputName}"]`).classList.remove(this._options.errorClass);
         }
-        if (form.querySelector(`.${this._options.inputErrorClass}`) !== null) {
-            form.querySelector(this._options.submitButtonSelector).disabled = true;
-            form.querySelector(this._options.submitButtonSelector).classList.add(this._options.inactiveButtonClass);
+        if (this._form.querySelector(`.${this._options.inputErrorClass}`) !== null) {
+            this._buttonElement.disabled = true;
+            this._buttonElement.classList.add(this._options.inactiveButtonClass);
         } else {
-            form.querySelector(this._options.submitButtonSelector).disabled = false;
-            form.querySelector(this._options.submitButtonSelector).classList.remove(this._options.inactiveButtonClass);
+            this._buttonElement.disabled = false;
+            this._buttonElement.classList.remove(this._options.inactiveButtonClass);
         }
+        this._toggleButtonState();
+
+    }
+
+    resetValidation() {
+        this._inputList.forEach(input => {
+            input.classList.remove(this._options.inputErrorClass);
+            this._form.querySelectorAll(`.${this._options.errorClass}`).forEach(span => {
+                span.classList.remove(this._options.errorClass);
+                span.innerHTML = '';
+            });
+            this._toggleButtonState();
+        })
     }
 }
 
